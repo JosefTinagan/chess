@@ -4,6 +4,14 @@ class Board
 		@grid = grid
 	end
 
+	def get_cell(x,y)
+		@grid[y][x]
+	end
+
+	def set_cell(x,y,value)
+		get_cell(x,y).value = value
+	end
+
 	def starting_pieces
 		
 	end

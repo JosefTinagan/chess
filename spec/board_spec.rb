@@ -10,11 +10,16 @@ describe Board do
 	end
 
 	context "get_cell" do
-
+		it "returns the correct cell" do
+			expect(test.get_cell(1,2).value).to eq  ""
+		end
 	end
 
 	context "set_cell" do
-
+		it "set and return the correct cell" do
+			test.set_cell(0,0,"b")
+			expect(test.get_cell(0,0).value).to eq "b"
+		end
 	end
 
 	context "#show_grid" do

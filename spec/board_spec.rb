@@ -22,9 +22,18 @@ describe Board do
 		end
 	end
 
+	context "remove_item" do
+		it "removes the value inside the cell" do
+			test.starting_pieces
+			test.remove_item(0,0)
+			expect(test.get_cell(0,0).value).to eq ""
+			#test.show_grid
+		end
+	end
+
 	context "#show_grid" do
 		it "shows current state of grid" do
-			test.show_grid
+			#test.show_grid
 		end	
 	end
 
@@ -32,6 +41,11 @@ describe Board do
 		it "initializes starting pieces" do
 			test.starting_pieces
 			test.show_grid
+			z = test.get_cell(0,0).value
+			test.set_cell(4,5,z) 
+			test.show_grid
 		end
 	end
+
+
 end

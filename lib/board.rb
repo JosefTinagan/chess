@@ -12,6 +12,10 @@ class Board
 		get_cell(x,y).value = value
 	end
 
+	def remove_item(x,y)
+		get_cell(x,y).value = ""
+	end
+
 	def starting_pieces
 		black_pawn_piece = "\u265F".encode("utf-8")
 		black_rook_piece = "\u265C".encode("utf-8")

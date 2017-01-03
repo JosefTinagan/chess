@@ -47,10 +47,14 @@ class Board
 
 		grid[1].each do |x|
 			x.value = black_pawn_piece
+			x.type = "PAWN"
+			x.color = "WHITE"
 		end
 
 		grid[6].each do |x|
 			x.value = white_pawn_piece
+			x.type = "PAWN"
+			x.color = "BLACK"
 		end
 
 		iterator = 0 
@@ -60,11 +64,40 @@ class Board
 		end
 	end
 
+	def pawn_move(start_pos,end_pos)
+		tmp = get_cell(start_pos[0],start_pos[1])
+		color = tmp.color
+		valid_moves = []
+		if color == "WHITE"
+			if tmp.starting_position
+				valid_moves.push([start_pos[0],start_pos[1] + 2])
+				.push([start_pos[0], start_pos[1] + 1])
+			else
+				valid_moves.push([start_pos[0],start_pos[1] + 1])
+			end
+			valid_moves.select {|x| get_cell(x[0],x[1]).value = ""}
+			return valid_moves.include?(end_pos)
+		elsif 
+			if tmp.starting_position
+				valid_moves.push([start_pos[0],start_pos[1] - 2])
+				.push([start_pos[0], start_pos[1] - 1])
+			else
+				valid_moves.push([start_pos[0],start_pos[1] - 1])
+			end
+			valid_moves.select {|x| get_cell(x[0],x[1]).value = ""}
+			return valid_moves.include?(end_pos)
+		end
+	end
+
 	def show_grid
 		puts "Showing board..."
+		i = 8
 		grid.each do |row|
-			puts row.map { |cell| cell.value.empty? ? "_" : cell.value }.join(" ")
+			x =  row.map { |cell| cell.value.empty? ? "_" : cell.value }.join(" ")
+			puts "#{x}  #{i}"
+			i -= 1
 		end
+		puts "a b c d e f g h"
 	end
 
 	def default_grid

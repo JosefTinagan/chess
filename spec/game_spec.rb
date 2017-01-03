@@ -8,18 +8,6 @@ describe Game do
 		end
 	end
 
-	context "#play" do
-		it "tests the method play" do
-			game.play
-		end
-	end
-
-	context "#valid_move?" do
-		it "tests valid_move? method" do
-			game.valid_move?([0,1],[0,2])
-		end
-	end
-
 	context "#solicit_move" do
 		it "returns 'Type a command(e.g. a7 a6). Separated by a space'" do
 			expected_response = 'Type a command(e.g. a7 a6). Separated by a space'
@@ -38,6 +26,18 @@ describe Game do
 
 		it "returns false if passed invalidd choice" do
 			expect(game.mapping_choice("j2")).to eq false
+		end
+	end
+
+	context "#valid_move?" do
+		it "tests valid_move? method" do
+			game.valid_move?([0,1],[0,2])
+		end
+	end
+
+	context "#play" do
+		it "tests the method play" do
+			game.play
 		end
 	end
 end

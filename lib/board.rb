@@ -12,8 +12,23 @@ class Board
 		get_cell(x,y).value = value
 	end
 
+	def set_cell_type(x,y,type)
+		get_cell(x,y).type = type
+	end
+
+	def set_cell_color(x,y,color)
+		get_cell(x,y).color = color
+	end
+
+	def set_cell_position(x,y,starting_position)
+		get_cell(x,y).starting_position = starting_position
+	end
+
 	def remove_item(x,y)
 		get_cell(x,y).value = ""
+		get_cell(x,y).color = ""
+		get_cell(x,y).type = ""
+		get_cell(x,y).starting_position = false
 	end
 
 	def starting_pieces
@@ -31,35 +46,57 @@ class Board
 		white_queen_piece = "\u2655".encode("utf-8")
 		white_king_piece = "\u2654".encode("utf-8")
 
-		black_backline = [black_rook_piece, black_knight_piece, black_bishop_piece, black_queen_piece,
-						black_king_piece, black_bishop_piece, black_knight_piece, black_rook_piece
+		black_backline = [black_rook_piece, black_knight_piece, black_bishop_piece, black_king_piece, 
+						  black_queen_piece,black_bishop_piece, black_knight_piece, black_rook_piece
 						]
 
 		white_backline = [ white_rook_piece, white_knight_piece, white_bishop_piece, white_queen_piece,
 						white_king_piece, white_bishop_piece, white_knight_piece, white_rook_piece
 						]
+		
+		rook_type= "ROOK"
+		knight_type= "KNIGHT"
+		bishop_type = "BISHOP"
+		king_type = "KING"
+		queen_type = "QUEEN"
+
+		type_black_backline = [rook_type,knight_type,bishop_type,king_type,queen_type,
+							bishop_type,knight_type,rook_type
+							]
+		type_white_backline = [rook_type,knight_type,bishop_type,queen_type,king_type,
+							bishop_type,knight_type,rook_type]
 
 		iterator = 0
 		grid[0].each do |x|
 			x.value = black_backline[iterator]
+			x.type = type_black_backline[iterator]
+			x.color = "BLACK"
+			x.starting_position = true
 			iterator += 1 
+
 		end
+
 
 		grid[1].each do |x|
 			x.value = black_pawn_piece
 			x.type = "PAWN"
-			x.color = "WHITE"
+			x.color = "BLACK"
+			x.starting_position = true
 		end
 
 		grid[6].each do |x|
 			x.value = white_pawn_piece
 			x.type = "PAWN"
-			x.color = "BLACK"
+			x.color = "WHITE"
+			x.starting_position = true
 		end
 
 		iterator = 0 
 		grid[7].each do |x|
 			x.value = white_backline[iterator]
+			x.type = type_white_backline[iterator]
+			x.color = "WHITE"
+			x.starting_position = true
 			iterator += 1 
 		end
 	end
@@ -68,15 +105,15 @@ class Board
 		tmp = get_cell(start_pos[0],start_pos[1])
 		color = tmp.color
 		valid_moves = []
-		if color == "WHITE"
+		if color == "BLACK"
 			if tmp.starting_position
 				valid_moves.push([start_pos[0],start_pos[1] + 2])
 				.push([start_pos[0], start_pos[1] + 1])
 			else
 				valid_moves.push([start_pos[0],start_pos[1] + 1])
 			end
-			valid_moves.select {|x| get_cell(x[0],x[1]).value = ""}
-			return valid_moves.include?(end_pos)
+			#valid_moves.select! {|x| get_cell(x[0],x[1]).value == ""}
+			#return valid_moves.include?(end_pos)
 		elsif 
 			if tmp.starting_position
 				valid_moves.push([start_pos[0],start_pos[1] - 2])
@@ -84,9 +121,41 @@ class Board
 			else
 				valid_moves.push([start_pos[0],start_pos[1] - 1])
 			end
-			valid_moves.select {|x| get_cell(x[0],x[1]).value = ""}
-			return valid_moves.include?(end_pos)
 		end
+		puts "valid_moves main"
+		puts valid_moves.inspect
+		valid_moves.select! {|x| get_cell(x[0],x[1]).value == ""}
+		diagonals = pawn_move_diagonal(start_pos, end_pos)
+
+		diagonals.each do |x|
+			valid_moves.push(x)
+		end
+		puts "in pawn_move"
+		valid_moves.select! { |x| x[0] >= 0 && x[0] <= 7 && x[1] >= 0 && x[1] <= 7 }
+		puts valid_moves.inspect
+		return valid_moves.include?(end_pos)
+	end
+
+	def pawn_move_diagonal(start_pos, end_pos)
+		tmp = get_cell(start_pos[0],start_pos[1])
+		color = tmp.color
+		valid_moves = []
+		if color == "BLACK"
+			valid_moves.push([start_pos[0] + 1, start_pos[1] + 1])
+			.push([start_pos[0] - 1, start_pos[1] + 1])
+		elsif 
+			valid_moves.push([start_pos[0] + 1, start_pos[1] - 1])
+			.push([start_pos[0] - 1, start_pos[1] - 1])
+		end
+		puts valid_moves.inspect
+		valid_moves.each do |x|
+			puts get_cell(x[0],x[1]).type
+		end
+		valid_moves.select! { |x| !(get_cell(x[0],x[1]).type == "") }
+		puts "In pawn move diagonal..."
+		puts valid_moves.inspect
+		valid_moves.select! { |x| x[0] >= 0 && x[0] <= 7 && x[1] >= 0 && x[1] <= 7 }
+		return valid_moves
 	end
 
 	def show_grid

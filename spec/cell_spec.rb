@@ -9,7 +9,7 @@ describe Cell do
 
 		it "initialize starting_position with true" do
 			c = Cell.new
-			expect(c.starting_position).to eq true
+			expect(c.starting_position).to eq false
 		end
 
 		it "initialize type to an empty string" do

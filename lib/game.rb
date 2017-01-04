@@ -48,6 +48,8 @@ class Game
 			valid = board.rook_move(start_pos,end_pos)
 		elsif type == "KNIGHT"
 			valid = board.knight_move(start_pos,end_pos)
+		elsif type == "BISHOP"
+			valid = board.bishop_move(start_pos,end_pos)
 		else
 
 		end

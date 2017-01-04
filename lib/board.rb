@@ -268,6 +268,86 @@ class Board
 		return valid_moves.include?(end_pos)
 	end
 
+	def bishop_move(start_pos,end_pos)
+		numbers_array = (1..7).to_a
+		valid_moves = []
+		tmp = get_cell(start_pos[0], start_pos[1])
+		color = tmp.color
+
+		numbers_array.each do |x|
+				first_num = start_pos[0] + x
+				second_num = start_pos[1] + x
+				break if first_num > 7 || second_num > 7
+
+				tmp_cell = get_cell(first_num,second_num)
+				
+				#check if no piece is in the way, if enemy piece, can conquer it
+				if !(tmp_cell.type == "")
+					if !(tmp_cell.color == color)
+						valid_moves.push([first_num,second_num])
+					end
+					break
+				end
+				valid_moves.push([first_num, second_num])
+		end
+
+		numbers_array.each do |x|
+				first_num = start_pos[0] - x
+				second_num = start_pos[1] - x
+				break if first_num < 0  || second_num < 0
+
+				tmp_cell = get_cell(first_num,second_num)
+				
+				#check if no piece is in the way, if enemy piece, can conquer it
+				if !(tmp_cell.type == "")
+					if !(tmp_cell.color == color)
+						valid_moves.push([first_num,second_num])
+					end
+					break
+				end
+				valid_moves.push([first_num, second_num])
+		end
+
+		numbers_array.each do |x|
+				first_num = start_pos[0] - x
+				second_num = start_pos[1] + x
+				break if first_num < 0 || second_num > 7
+
+				tmp_cell = get_cell(first_num,second_num)
+				
+				#check if no piece is in the way, if enemy piece, can conquer it
+				if !(tmp_cell.type == "")
+					if !(tmp_cell.color == color)
+						valid_moves.push([first_num,second_num])
+					end
+					break
+				end
+				valid_moves.push([first_num, second_num])
+		end
+
+		numbers_array.each do |x|
+				first_num = start_pos[0] + x
+				second_num = start_pos[1] - x
+				break if first_num > 7 || second_num < 0
+
+				tmp_cell = get_cell(first_num,second_num)
+				
+				#check if no piece is in the way, if enemy piece, can conquer it
+				if !(tmp_cell.type == "")
+					if !(tmp_cell.color == color)
+						valid_moves.push([first_num,second_num])
+					end
+					break
+				end
+				valid_moves.push([first_num, second_num])
+		end
+
+		valid_moves.select! { |x| x[0] >= 0 && x[0] <= 7 && x[1] >= 0 && x[1] <= 7}
+		puts "Valid moves:"
+		p valid_moves
+		return valid_moves.include?(end_pos)
+	end
+
 	def show_grid
 		puts "Showing board..."
 		i = 8

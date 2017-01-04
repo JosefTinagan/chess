@@ -241,7 +241,31 @@ class Board
 	end
 
 	def knight_move(start_pos,end_pos)
+		valid_moves = []
+		a,b = start_pos[0], start_pos[1]
+		tmp = get_cell(a,b)
+		color = tmp.color
 
+		valid_moves.push([a + 2, b - 1]).push([a + 2, b + 1]).push([a + 1, b - 2])
+		.push([a + 1, b + 2]).push([a - 1, b - 2]).push([a - 1, b + 2]).push([a - 2, b - 1])
+		.push([a - 2, b + 1])
+
+		valid_moves.select!{ |x| x[0] >= 0 && x[0] <= 7 && x[1] >= 0 && x[1] <= 7 }
+		tmp_arr = []
+		
+		valid_moves.each do |x|
+			tmp_cell = get_cell(x[0],x[1])
+
+			if tmp_cell.type == ""
+				tmp_arr.push(x)
+			else
+				if tmp_cell.color != color
+					tmp_arr.push(x)
+				end
+			end
+		end
+		valid_moves = tmp_arr
+		return valid_moves.include?(end_pos)
 	end
 
 	def show_grid

@@ -23,7 +23,7 @@ class Game
 					x = b[0]
 					y = b[1]
 
-		
+
 					board.set_cell(x,y,tmp.value)
 					board.set_cell_type(x,y,tmp.type)
 					board.set_cell_color(x,y,tmp.color)
@@ -46,6 +46,8 @@ class Game
 			valid = board.pawn_move(start_pos,end_pos)
 		elsif type == "ROOK"
 			valid = board.rook_move(start_pos,end_pos)
+		elsif type == "KNIGHT"
+			valid = board.knight_move(start_pos,end_pos)
 		else
 
 		end

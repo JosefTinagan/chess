@@ -47,5 +47,35 @@ describe Board do
 		end
 	end
 
+	let(:board_test) { Board.new }
+	context "#rook_move" do
+		it "returns false if a move is invalid" do
+			board_test.starting_pieces
+			expect(board_test.rook_move([0,0],[0,2])).to be false
+		end
+	end
 
+	context "knight_move" do
+		it "returns false if a move is invalid" do
+
+		end
+	end
+
+	context "#bishop_move" do
+		it "returns false if a move is invalid" do
+			
+		end
+	end
+
+	context "#queen_move" do
+		it "returns false if a move is invalid" do
+
+		end
+	end
+
+	context "#king_move" do
+		it "returns false if a move is invalid" do
+
+		end
+	end
 end

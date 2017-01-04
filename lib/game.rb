@@ -23,6 +23,7 @@ class Game
 					x = b[0]
 					y = b[1]
 
+		
 					board.set_cell(x,y,tmp.value)
 					board.set_cell_type(x,y,tmp.type)
 					board.set_cell_color(x,y,tmp.color)
@@ -43,10 +44,13 @@ class Game
 		type = board.get_cell(start_pos[0],start_pos[1]).type
 		if type == "PAWN"
 			valid = board.pawn_move(start_pos,end_pos)
-			return valid
+		elsif type == "ROOK"
+			valid = board.rook_move(start_pos,end_pos)
 		else
 
 		end
+
+		return valid
 	end
 
 	def solicit_move

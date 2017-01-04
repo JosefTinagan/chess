@@ -122,17 +122,18 @@ class Board
 				valid_moves.push([start_pos[0],start_pos[1] - 1])
 			end
 		end
-		puts "valid_moves main"
-		puts valid_moves.inspect
-		valid_moves.select! {|x| get_cell(x[0],x[1]).value == ""}
+		#puts "valid_moves main"
+		#puts valid_moves.inspect
+		valid_moves.select! { |x| get_cell(x[0],x[1]).value == ""}
 		diagonals = pawn_move_diagonal(start_pos, end_pos)
 
 		diagonals.each do |x|
 			valid_moves.push(x)
 		end
-		puts "in pawn_move"
+		#puts "in pawn_move"
 		valid_moves.select! { |x| x[0] >= 0 && x[0] <= 7 && x[1] >= 0 && x[1] <= 7 }
-		puts valid_moves.inspect
+
+		#puts valid_moves.inspect
 		return valid_moves.include?(end_pos)
 	end
 
@@ -143,19 +144,104 @@ class Board
 		if color == "BLACK"
 			valid_moves.push([start_pos[0] + 1, start_pos[1] + 1])
 			.push([start_pos[0] - 1, start_pos[1] + 1])
-		elsif 
+		else
 			valid_moves.push([start_pos[0] + 1, start_pos[1] - 1])
 			.push([start_pos[0] - 1, start_pos[1] - 1])
 		end
-		puts valid_moves.inspect
+		#puts valid_moves.inspect
 		valid_moves.each do |x|
-			puts get_cell(x[0],x[1]).type
+		#	puts get_cell(x[0],x[1]).type
 		end
-		valid_moves.select! { |x| !(get_cell(x[0],x[1]).type == "") }
-		puts "In pawn move diagonal..."
-		puts valid_moves.inspect
 		valid_moves.select! { |x| x[0] >= 0 && x[0] <= 7 && x[1] >= 0 && x[1] <= 7 }
+		valid_moves.select! { |x| !(get_cell(x[0],x[1]).type == "") }
+		#puts "In pawn move diagonal..."
+		#puts valid_moves.inspect
+		
 		return valid_moves
+	end
+
+	def rook_move(start_pos, end_pos)
+		numbers_array = (1..7).to_a
+		valid_moves = []
+		tmp = get_cell(start_pos[0], start_pos[1])
+		color = tmp.color
+
+			numbers_array.each do |x|
+				first_num = start_pos[0] + x
+				second_num = start_pos[1]
+				break if first_num > 7
+
+				tmp_cell = get_cell(first_num,second_num)
+				
+
+				#check if no piece is in the way, if enemy piece, can conquer it
+				if !(tmp_cell.type == "")
+					if !(tmp_cell.color == color)
+						valid_moves.push([first_num,second_num])
+					end
+					break
+				end
+				valid_moves.push([first_num, second_num])
+			end
+
+			numbers_array.each do |x|
+				first_num = start_pos[0] - x
+				second_num = start_pos[1]
+				break if first_num < 0
+
+				tmp_cell = get_cell(first_num,second_num)
+				#check, like above
+				if !(tmp_cell.type == "")
+					if !(tmp_cell.color == color)
+						valid_moves.push([first_num,second_num])
+					end
+					break
+				end
+				valid_moves.push([first_num, second_num])
+			end
+
+			numbers_array.each do |x|
+				first_num = start_pos[0]
+				second_num = start_pos[1] + x
+				break if second_num > 7
+
+				tmp_cell = get_cell(first_num,second_num)
+
+				#check, like above
+				if !(tmp_cell.type == "")
+					if !(tmp_cell.color == color)
+						valid_moves.push([first_num,second_num])
+					end
+					break
+				end
+				valid_moves.push([first_num, second_num])
+			end
+
+			numbers_array.each do |x|
+				first_num = start_pos[0]
+				second_num = start_pos[1] - x
+				break if second_num < 0
+
+				tmp_cell = get_cell(first_num,second_num)
+
+				#check, like above
+				if !(tmp_cell.type == "")
+					if !(tmp_cell.color == color)
+						valid_moves.push([first_num,second_num])
+					end
+					break
+				end
+				valid_moves.push([first_num, second_num])
+			end
+
+		valid_moves.select! { |x| x[0] >= 0 && x[0] <= 7 && x[1] >= 0 && x[1] <= 7}
+		puts "Valid moves:"
+		p valid_moves
+		return valid_moves.include?(end_pos)
+	end
+
+	def knight_move(start_pos,end_pos)
+
 	end
 
 	def show_grid

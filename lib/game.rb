@@ -50,8 +50,13 @@ class Game
 			valid = board.knight_move(start_pos,end_pos)
 		elsif type == "BISHOP"
 			valid = board.bishop_move(start_pos,end_pos)
+		elsif type == "QUEEN"
+			valid = board.queen_move(start_pos,end_pos)
+		elsif type == "KING"
+			valid = board.king_move(start_pos,end_pos)
 		else
-
+			puts "Unknown Type..."
+			valid = false
 		end
 
 		return valid

@@ -5,6 +5,10 @@ class Game
 		board.starting_pieces
 	end
 
+	def game_over_message
+		return "The game is over" if board.game_over == :winner
+	end
+
 	def play
 		while true
 			puts "This is the current board:"
@@ -23,7 +27,6 @@ class Game
 					x = b[0]
 					y = b[1]
 
-
 					board.set_cell(x,y,tmp.value)
 					board.set_cell_type(x,y,tmp.type)
 					board.set_cell_color(x,y,tmp.color)
@@ -36,6 +39,13 @@ class Game
 			else
 				puts "Invalid choice...Try again."
 				play
+			end
+
+			#check winning condition
+			if board.game_over
+				puts game_over_message
+				board.show_grid
+				return
 			end
 		end
 	end

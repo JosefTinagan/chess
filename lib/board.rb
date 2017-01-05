@@ -133,8 +133,9 @@ class Board
 		#puts "in pawn_move"
 		valid_moves.select! { |x| x[0] >= 0 && x[0] <= 7 && x[1] >= 0 && x[1] <= 7 }
 
+		
 		#puts valid_moves.inspect
-		return valid_moves.include?(end_pos)
+		return valid_moves.include?(end_pos), checked?(valid_moves)
 	end
 
 	def pawn_move_diagonal(start_pos, end_pos)
@@ -381,6 +382,39 @@ class Board
 		return valid_moves.include?(end_pos)
 	end
 
+	def checked?(arr)
+		is_check = false
+		arr.each do |x|
+			tmp_cell = get_cell(x[0],x[1])
+			if tmp_cell.type == "KING"
+				is_check = true
+				break
+			end
+		end
+		return is_check
+	end
+
+	def game_over
+		return :winner if winner?
+	end
+
+	def winner?
+		tmp = []
+		grid.each do |row|
+			row.each do |cell|
+				if cell.type == "KING"
+					tmp.push(cell)
+				end
+			end
+		end
+
+		if tmp.length == 2
+			return false
+		elsif tmp.length == 1
+			puts "#{tmp[0].color} wins!"
+			return true
+		end
+	end
 
 	def show_grid
 		puts "Showing board..."
